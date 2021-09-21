@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ReviewRating
+from .models import Product, ReviewRating, ProductGallery
 from .forms import ReviewForm
 from django.contrib import messages
 from category.models import Category
@@ -29,6 +29,7 @@ def store(request, category_slug=None):
     paged_products = paginator.get_page(page)
     product_count = products.count()
 
+
     context = {
         'products': paged_products,
         'product_count': product_count,
@@ -52,12 +53,14 @@ def product_detail(request, category_slug, product_slug):
         is_ordered = None
 
     reviews = ReviewRating.objects.filter(product=single_product, status=True)
+    product_gallery = ProductGallery.objects.filter(product=single_product)
 
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
         'is_ordered': is_ordered,
         'reviews': reviews,
+        'product_gallery': product_gallery,
     }
 
     return render(request, 'store/product_detail.html', context)

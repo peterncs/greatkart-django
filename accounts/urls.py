@@ -11,6 +11,11 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
     path('resetPassword_validate/<uidb64>/<token>/', views.resetPassword_validate, name='resetPassword_validate'),
-    path('resetPassword/', views.resetPassword, name='resetPassword')
+    path('resetPassword/', views.resetPassword, name='resetPassword'),
+
+    path('my_orders/', views.my_orders, name='my_orders'),
+    path('edit_profile', views.edit_profile, name='edit_profile'),
+    path('changePassword/', views.changePassword, name='changePassword'),
+    path('order_detail/<int:order_id>/', views.order_detail, name='order_detail')
 
 ]

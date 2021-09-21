@@ -18,46 +18,46 @@
             {% csrf_token %}
             <div class="form-row">
                 <div class="col form-group">
-                    <label for="">First Name</label>
-                    <input type="text" name="first_name" class="form-control" required>
+                    <label for="">First Name </label>
+                    <input type="text" name="first_name" class="form-control" value="{{user_profile.user.first_name}}" required>
                 </div>
                 <div class="col form-group">
                     <label for="">Last Name</label>
-                    <input type="text" name="last_name" class="form-control" required>
+                    <input type="text" name="last_name" class="form-control" value="{{user_profile.user.last_name}}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">Email</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <input type="email" name="email" class="form-control" value="{{user_profile.user.email}}" required>
                 </div>
                 <div class="col form-group">
                     <label for="">Phone number</label>
-                    <input type="text" name="phone" class="form-control" required>
+                    <input type="text" name="phone" class="form-control" value="{{user_profile.user.phone_number}}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">Address Line 1</label>
-                    <input type="text" name="address_line_1" class="form-control" required>
+                    <input type="text" name="address_line_1" class="form-control" value="{{user_profile.address_line_1}}" required>
                 </div>
                 <div class="col form-group">
                     <label for="">Address Line 2</label>
-                    <input type="text" name="address_line_2" class="form-control">
+                    <input type="text" name="address_line_2" class="form-control" value="{{user_profile.address_line_2}}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="">City</label>
-                    <input type="text" name="city" class="form-control" required>
+                    <input type="text" name="city" class="form-control" value="{{user_profile.city}}" required>
                 </div>
                 <div class="col form-group">
                     <label for="">State</label>
-                    <input type="text" name="state" class="form-control" required>
+                    <input type="text" name="state" class="form-control" value="{{user_profile.state}}" required>
                 </div>
                 <div class="col form-group">
                     <label for="">Country</label>
-                    <input type="text" name="country" class="form-control" required>
+                    <input type="text" name="country" class="form-control" value="{{user_profile.country}}" required>
                 </div>
             </div>
             <div class="form-row">
