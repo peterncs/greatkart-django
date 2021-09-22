@@ -117,7 +117,7 @@
 				{% if is_ordered %}
 					<input type="submit" value="Submit Review" class="btn btn-primary">
 				{% else %}
-					<p>You must purchase this product to post a review.</p>
+				<h5><b>You must purchase this product to post a review.</b></h5>
 				{% endif %}
 			{% else %}
 				<p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login</a></span></p>
