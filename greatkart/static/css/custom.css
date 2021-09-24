@@ -1,6 +1,8 @@
 /* Hide Radio button */
 .rate > input{
-    display: none;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
 }
 
 .rate{
