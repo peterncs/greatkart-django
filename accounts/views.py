@@ -31,7 +31,7 @@ def register(request):
             phone_number = form.cleaned_data['phone_number']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            username = email.split("@")[0]
+            username = form.cleaned_data['username']
 
             user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email,
                                                username=username, password=password)
@@ -72,55 +72,60 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        user = auth.authenticate(email=email, password=password)
-        if user is not None:
-            try:
-                cart = Cart.objects.get(cart_id=_cart_id(request))
-                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
-                if is_cart_item_exists:
-                    cart_item = CartItem.objects.filter(cart=cart)
-                    product_variations = []
-                    for item in cart_item:
-                        variation = item.variations.all()
-                        product_variations.append(list(variation))
+        user = Account.objects.get(email=email)
+        if not user.is_active:
+            messages.error(request, 'Account is not activated. Please check your email.')
+            return redirect('login')
+        else:
+            user = auth.authenticate(email=email, password=password)
+            if user is not None:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart=cart)
+                        product_variations = []
+                        for item in cart_item:
+                            variation = item.variations.all()
+                            product_variations.append(list(variation))
 
-                    # Get the product variation of the logged in user
-                    user_cart_item = CartItem.objects.filter(user=user)
-                    ex_var_list = []
-                    cart_item_id_list = []
-                    for item in user_cart_item:
-                        existing_variation = item.variations.all()
-                        ex_var_list.append(list(existing_variation))
-                        cart_item_id_list.append(item.id)
+                        # Get the product variation of the logged in user
+                        user_cart_item = CartItem.objects.filter(user=user)
+                        ex_var_list = []
+                        cart_item_id_list = []
+                        for item in user_cart_item:
+                            existing_variation = item.variations.all()
+                            ex_var_list.append(list(existing_variation))
+                            cart_item_id_list.append(item.id)
 
-                    for product_variation in product_variations:
-                        if product_variation in ex_var_list:
-                            index = ex_var_list.index(product_variation)
-                            item_id = cart_item_id_list[index]
-                            item = CartItem.objects.get(id=item_id)
-                            item.quantity += 1
-                            item.user = user
-                            item.save()
-                        else:
-                            for item in cart_item:
+                        for product_variation in product_variations:
+                            if product_variation in ex_var_list:
+                                index = ex_var_list.index(product_variation)
+                                item_id = cart_item_id_list[index]
+                                item = CartItem.objects.get(id=item_id)
+                                item.quantity += 1
                                 item.user = user
                                 item.save()
-            except:
-                pass
-            auth.login(request, user)
-            messages.success(request, 'You are now logged in.')
-            url = request.META.get('HTTP_REFERER')
-            try:
-                query = requests.utils.urlparse(url).query
-                params = dict(x.split('=') for x in query.split('&'))
-                if 'next' in params:
-                    nextpage = params['next']
-                return redirect(nextpage)
-            except:
-                return redirect('dashboard')
-        else:
-            messages.error(request, 'Invalid login credentials')
-            return redirect('login')
+                            else:
+                                for item in cart_item:
+                                    item.user = user
+                                    item.save()
+                except:
+                    pass
+                auth.login(request, user)
+                messages.success(request, 'You are now logged in.')
+                url = request.META.get('HTTP_REFERER')
+                try:
+                    query = requests.utils.urlparse(url).query
+                    params = dict(x.split('=') for x in query.split('&'))
+                    if 'next' in params:
+                        nextpage = params['next']
+                    return redirect(nextpage)
+                except:
+                    return redirect('dashboard')
+            else:
+                messages.error(request, 'Invalid login credentials')
+                return redirect('login')
     return render(request, 'accounts/login.html')
 
 
