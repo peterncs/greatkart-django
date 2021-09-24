@@ -57,7 +57,7 @@
                                         <tbody>
                                             {% for ordered_product in ordered_products %}
                                             <tr>
-                                                <td>{{ordered_product}}
+                                                <td><a href="{{ ordered_product.product.get_url }}">{{ordered_product}}</a>
                                                     <p class="text-muted small">
 											        {% if ordered_product.variations.all %}
 												        {% for variation in ordered_product.variations.all %}
