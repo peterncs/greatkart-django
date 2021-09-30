@@ -2,12 +2,6 @@
 > An eCommerce website created with Python Django framework.
 > Live demo [_here_](https://djangokart.com). 
 
-## Table of Contents
-* [General Info](#general-information)
-* [Technologies Used](#technologies-used)
-* [Features](#features)
-* [Codes](#navigate-through-code)
-
 
 ## General Information
 - This project focuses on using Python Django framework to develop a fully-featured eCommerce website.
